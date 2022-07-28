@@ -1223,26 +1223,26 @@ static NSString *const kDefaultoAuthClientSecret = @"particle";
 
 
 -(void)subscribeToDevicesSystemEvents {
-    
-    __weak ParticleCloud *weakSelf = self;
-    self.systemEventsListenerId = [self subscribeToMyDevicesEventsWithPrefix:@"spark" handler:^(ParticleEvent * _Nullable event, NSError * _Nullable error) {
+    // Avoid using EventSource as we are using a seperate module to manage SSEs
+    // __weak ParticleCloud *weakSelf = self;
+    // self.systemEventsListenerId = [self subscribeToMyDevicesEventsWithPrefix:@"spark" handler:^(ParticleEvent * _Nullable event, NSError * _Nullable error) {
 
-        if (!error) {
-            ParticleDevice *device = [weakSelf.devicesMapTable objectForKey:event.deviceID];
-            if (device) {
-                [device __receivedSystemEvent:event];
-            }
-        } else {
-            [ParticleLogger logError:NSStringFromClass([self class]) format:@"! ParticleCloud could not subscribeToEvents to devices system events %@",error.localizedDescription];
-        }
-    }];
+    //     if (!error) {
+    //         ParticleDevice *device = [weakSelf.devicesMapTable objectForKey:event.deviceID];
+    //         if (device) {
+    //             [device __receivedSystemEvent:event];
+    //         }
+    //     } else {
+    //         [ParticleLogger logError:NSStringFromClass([self class]) format:@"! ParticleCloud could not subscribeToEvents to devices system events %@",error.localizedDescription];
+    //     }
+    // }];
 
 }
 
 -(void)unsubscribeToDevicesSystemEvents {
-    if (self.systemEventsListenerId) {
-        [self unsubscribeFromEventWithID:self.systemEventsListenerId];
-    }
+    // if (self.systemEventsListenerId) {
+    //     [self unsubscribeFromEventWithID:self.systemEventsListenerId];
+    // }
 }
 
 -(NSURLSessionDataTask *)getCard:(nullable void(^)(NSString* _Nullable token, NSString* _Nullable last4, NSUInteger expiryMonth, NSUInteger expiryYear, NSString* _Nullable brand, NSError * _Nullable error))completion;
@@ -2050,7 +2050,7 @@ static NSString *const kDefaultoAuthClientSecret = @"particle";
 
 
 -(void)dealloc {
-    [self unsubscribeToDevicesSystemEvents];
+    // [self unsubscribeToDevicesSystemEvents];
 }
 
 @end
